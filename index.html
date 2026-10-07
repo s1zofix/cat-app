@@ -5,395 +5,135 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Мой Котик</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--tg-theme-bg-color, #ffffff);
             color: var(--tg-theme-text-color, #000000);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            min-height: 100vh;
-            padding: 20px 16px;
-            overflow-x: hidden;
+            display: flex; flex-direction: column; align-items: center;
+            min-height: 100vh; padding: 20px 16px; overflow-x: hidden;
         }
+        .header { text-align: center; margin-bottom: 12px; }
+        .header h1 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+        .header .level { font-size: 14px; opacity: 0.7; }
 
-        .header {
-            text-align: center;
-            margin-bottom: 12px;
-        }
-
-        .header h1 {
-            font-size: 22px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .header .level {
-            font-size: 14px;
-            opacity: 0.7;
-        }
-
-        /* === КОТИК === */
         .cat-container {
-            position: relative;
-            width: 240px;
-            height: 240px;
-            margin: 8px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: filter 0.6s ease, box-shadow 0.6s ease, opacity 0.6s ease;
+            position: relative; width: 240px; height: 240px; margin: 8px auto;
+            display: flex; align-items: center; justify-content: center;
+            transition: filter 0.6s ease, box-shadow 0.6s ease, transform 0.2s ease;
         }
+        .cat-container lottie-player { width: 100%; height: 100%; }
+        .cat-container.bounce { transform: scale(1.12); }
 
-        .cat-container lottie-player {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* === СКИНЫ (CSS-фильтры) === */
         .skin-default { filter: none; }
+        .skin-ginger { filter: hue-rotate(20deg) saturate(2) brightness(1.05); }
+        .skin-black { filter: brightness(0.35) contrast(1.4); }
+        .skin-white { filter: brightness(1.5) saturate(0.4) contrast(0.9); }
+        .skin-fluffy { filter: hue-rotate(-20deg) saturate(0.7) brightness(1.15) contrast(0.95); }
+        .skin-striped { filter: hue-rotate(15deg) saturate(1.6) contrast(1.2); }
+        .skin-bow { filter: hue-rotate(300deg) saturate(1.5) brightness(1.1); }
+        .skin-glasses { filter: contrast(1.3) brightness(0.9) saturate(0.8); }
+        .skin-scarf { filter: hue-rotate(180deg) saturate(1.4) brightness(1.05); }
+        .skin-headphones { filter: hue-rotate(260deg) saturate(1.3) brightness(1.05); }
+        .skin-hat { filter: contrast(1.4) brightness(0.85) saturate(0.6); }
+        .skin-crown { filter: sepia(0.8) saturate(2.5) hue-rotate(20deg) brightness(1.15); animation: crownGlow 3s ease-in-out infinite; }
+        .skin-fire { filter: hue-rotate(340deg) saturate(2.5) brightness(1.1); animation: fireGlow 1.5s ease-in-out infinite; }
+        .skin-water { filter: hue-rotate(190deg) saturate(1.8) brightness(1.1); animation: waterFloat 3s ease-in-out infinite; }
+        .skin-galaxy { filter: hue-rotate(250deg) saturate(1.8) brightness(0.85); box-shadow: 0 0 40px rgba(150, 100, 255, 0.5); animation: galaxyGlow 3s ease-in-out infinite; }
+        .skin-shadow { filter: brightness(0.35) contrast(1.6) saturate(0.4); box-shadow: 0 0 30px rgba(0, 0, 0, 0.8); }
+        .skin-golden { filter: sepia(1) saturate(3) hue-rotate(10deg) brightness(1.3); animation: goldenGlow 2s ease-in-out infinite; }
+        .skin-unicorn { animation: rainbow 4s linear infinite; }
+        .skin-dragon { filter: hue-rotate(120deg) saturate(2.5) brightness(1.1); animation: fireGlow 2s ease-in-out infinite; }
+        .skin-angel { filter: brightness(1.4) saturate(0.3) contrast(0.9); animation: angelFloat 4s ease-in-out infinite; }
 
-        .skin-ginger {
-            filter: hue-rotate(20deg) saturate(2) brightness(1.05);
-        }
+        @keyframes fireGlow { 0%,100% { filter: hue-rotate(340deg) saturate(2.5) brightness(1.1); } 50% { filter: hue-rotate(350deg) saturate(3) brightness(1.25); } }
+        @keyframes goldenGlow { 0%,100% { box-shadow: 0 0 20px rgba(255,215,0,0.5); } 50% { box-shadow: 0 0 60px rgba(255,215,0,0.9); } }
+        @keyframes crownGlow { 0%,100% { box-shadow: 0 0 15px rgba(255,215,0,0.4); } 50% { box-shadow: 0 0 40px rgba(255,215,0,0.8); } }
+        @keyframes galaxyGlow { 0%,100% { box-shadow: 0 0 40px rgba(150,100,255,0.5); } 50% { box-shadow: 0 0 80px rgba(150,100,255,0.8); } }
+        @keyframes rainbow { 0% { filter: hue-rotate(0deg) saturate(2); } 100% { filter: hue-rotate(360deg) saturate(2); } }
+        @keyframes waterFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        @keyframes angelFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
 
-        .skin-black {
-            filter: brightness(0.35) contrast(1.4);
-        }
-
-        .skin-white {
-            filter: brightness(1.5) saturate(0.4) contrast(0.9);
-        }
-
-        .skin-fluffy {
-            filter: hue-rotate(-20deg) saturate(0.7) brightness(1.15) contrast(0.95);
-        }
-
-        .skin-striped {
-            filter: hue-rotate(15deg) saturate(1.6) contrast(1.2);
-        }
-
-        .skin-bow {
-            filter: hue-rotate(300deg) saturate(1.5) brightness(1.1);
-        }
-
-        .skin-glasses {
-            filter: contrast(1.3) brightness(0.9) saturate(0.8);
-        }
-
-        .skin-scarf {
-            filter: hue-rotate(180deg) saturate(1.4) brightness(1.05);
-        }
-
-        .skin-headphones {
-            filter: hue-rotate(260deg) saturate(1.3) brightness(1.05);
-        }
-
-        .skin-hat {
-            filter: contrast(1.4) brightness(0.85) saturate(0.6);
-        }
-
-        .skin-crown {
-            filter: sepia(0.8) saturate(2.5) hue-rotate(20deg) brightness(1.15);
-            animation: crownGlow 3s ease-in-out infinite;
-        }
-
-        .skin-fire {
-            filter: hue-rotate(340deg) saturate(2.5) brightness(1.1);
-            animation: fireGlow 1.5s ease-in-out infinite;
-        }
-
-        .skin-water {
-            filter: hue-rotate(190deg) saturate(1.8) brightness(1.1);
-            animation: waterFloat 3s ease-in-out infinite;
-        }
-
-        .skin-galaxy {
-            filter: hue-rotate(250deg) saturate(1.8) brightness(0.85);
-            box-shadow: 0 0 40px rgba(150, 100, 255, 0.5);
-            animation: galaxyGlow 3s ease-in-out infinite;
-        }
-
-        .skin-shadow {
-            filter: brightness(0.35) contrast(1.6) saturate(0.4);
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
-        }
-
-        .skin-golden {
-            filter: sepia(1) saturate(3) hue-rotate(10deg) brightness(1.3);
-            animation: goldenGlow 2s ease-in-out infinite;
-        }
-
-        .skin-unicorn {
-            animation: rainbow 4s linear infinite;
-        }
-
-        .skin-dragon {
-            filter: hue-rotate(120deg) saturate(2.5) brightness(1.1);
-            animation: fireGlow 2s ease-in-out infinite;
-        }
-
-        .skin-angel {
-            filter: brightness(1.4) saturate(0.3) contrast(0.9);
-            animation: angelFloat 4s ease-in-out infinite;
-        }
-
-        /* === АНИМАЦИИ === */
-        @keyframes fireGlow {
-            0%, 100% { filter: hue-rotate(340deg) saturate(2.5) brightness(1.1); }
-            50%      { filter: hue-rotate(350deg) saturate(3) brightness(1.25); }
-        }
-
-        @keyframes goldenGlow {
-            0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
-            50%      { box-shadow: 0 0 60px rgba(255, 215, 0, 0.9); }
-        }
-
-        @keyframes crownGlow {
-            0%, 100% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.4); }
-            50%      { box-shadow: 0 0 40px rgba(255, 215, 0, 0.8); }
-        }
-
-        @keyframes galaxyGlow {
-            0%, 100% { box-shadow: 0 0 40px rgba(150, 100, 255, 0.5); }
-            50%      { box-shadow: 0 0 80px rgba(150, 100, 255, 0.8); }
-        }
-
-        @keyframes rainbow {
-            0%   { filter: hue-rotate(0deg) saturate(2); }
-            100% { filter: hue-rotate(360deg) saturate(2); }
-        }
-
-        @keyframes waterFloat {
-            0%, 100% { transform: translateY(0); }
-            50%      { transform: translateY(-8px); }
-        }
-
-        @keyframes angelFloat {
-            0%, 100% { transform: translateY(0); }
-            50%      { transform: translateY(-12px); }
-        }
-
-        /* === СТАТУС === */
-        .stats {
-            width: 100%;
-            max-width: 340px;
-            margin: 12px auto;
-            padding: 14px 16px;
-            background: var(--tg-theme-secondary-bg-color, #f1f1f1);
-            border-radius: 14px;
-        }
-
-        .stat-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-
+        .stats { width: 100%; max-width: 340px; margin: 12px auto; padding: 14px 16px; background: var(--tg-theme-secondary-bg-color, #f1f1f1); border-radius: 14px; }
+        .stat-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
         .stat-row:last-child { margin-bottom: 0; }
-
-        .stat-bar {
-            flex: 1;
-            height: 8px;
-            background: rgba(128, 128, 128, 0.2);
-            border-radius: 4px;
-            margin: 0 10px;
-            overflow: hidden;
-        }
-
-        .stat-bar-fill {
-            height: 100%;
-            border-radius: 4px;
-            transition: width 0.5s ease;
-        }
-
+        .stat-bar { flex: 1; height: 8px; background: rgba(128,128,128,0.2); border-radius: 4px; margin: 0 10px; overflow: hidden; }
+        .stat-bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; }
         .fill-hunger { background: linear-gradient(90deg, #ff9a56, #ff6b35); }
-        .fill-mood   { background: linear-gradient(90deg, #ff6b9d, #ff477e); }
+        .fill-mood { background: linear-gradient(90deg, #ff6b9d, #ff477e); }
         .fill-energy { background: linear-gradient(90deg, #4facfe, #00f2fe); }
-
-        .stat-value {
-            font-weight: 600;
-            min-width: 40px;
-            text-align: right;
-            font-size: 13px;
+        .stat-value { font-weight: 600; min-width: 40px; text-align: right; font-size: 13px; }
+        .stat-value.flash { animation: statFlash 0.6s ease; }
+        @keyframes statFlash {
+            0% { color: var(--tg-theme-text-color, #000); transform: scale(1); }
+            50% { color: #00c853; transform: scale(1.3); }
+            100% { color: var(--tg-theme-text-color, #000); transform: scale(1); }
         }
 
-        /* === КНОПКИ === */
-        .actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            width: 100%;
-            max-width: 340px;
-            margin-top: 16px;
-        }
-
+        .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 340px; margin-top: 16px; }
         .action-btn {
-            padding: 14px 10px;
-            font-size: 15px;
-            font-weight: 500;
-            border: none;
-            border-radius: 12px;
-            background: var(--tg-theme-button-color, #2481cc);
-            color: var(--tg-theme-button-text-color, #ffffff);
-            cursor: pointer;
-            transition: transform 0.1s ease, opacity 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
+            padding: 14px 10px; font-size: 15px; font-weight: 500; border: none; border-radius: 12px;
+            background: var(--tg-theme-button-color, #2481cc); color: var(--tg-theme-button-text-color, #ffffff);
+            cursor: pointer; transition: transform 0.15s ease, opacity 0.2s ease;
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
         }
+        .action-btn:active { transform: scale(0.94); opacity: 0.85; }
+        .action-btn .emoji { font-size: 22px; }
+        .action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-        .action-btn:active {
-            transform: scale(0.96);
-            opacity: 0.85;
-        }
-
-        .action-btn .emoji {
-            font-size: 22px;
-        }
-
-        .action-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        /* === ТОСТ (всплывающее сообщение) === */
         .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: var(--tg-theme-button-color, #2481cc);
-            color: var(--tg-theme-button-text-color, #fff);
-            padding: 12px 24px;
-            border-radius: 20px;
-            font-size: 14px;
-            opacity: 0;
-            transition: all 0.4s ease;
-            pointer-events: none;
-            z-index: 100;
-            max-width: 90%;
-            text-align: center;
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
+            background: var(--tg-theme-button-color, #2481cc); color: var(--tg-theme-button-text-color, #fff);
+            padding: 12px 24px; border-radius: 20px; font-size: 14px; opacity: 0;
+            transition: all 0.4s ease; pointer-events: none; z-index: 100; max-width: 90%; text-align: center;
         }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-
-        /* === ЗАГРУЗКА === */
-        .loading {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            font-size: 16px;
-            opacity: 0.6;
-        }
+        .loading { display: flex; align-items: center; justify-content: center; height: 100vh; font-size: 16px; opacity: 0.6; }
     </style>
 </head>
 <body>
-
 <div id="app" style="display: none; width: 100%; flex-direction: column; align-items: center;">
-    
     <div class="header">
         <h1 id="cat-name">Мурзик</h1>
         <div class="level" id="cat-level">Уровень 1</div>
     </div>
 
-    <!-- Котик -->
     <div class="cat-container skin-default" id="cat-container">
-        <lottie-player 
-            id="cat-animation"
-            src="cat.json" 
-            background="transparent" 
-            speed="1" 
-            loop 
-            autoplay>
-        </lottie-player>
+        <lottie-player id="cat-animation" src="cat.json" background="transparent" speed="1" loop autoplay></lottie-player>
     </div>
 
-    <!-- Статы -->
     <div class="stats">
-        <div class="stat-row">
-            <span>🍖</span>
-            <div class="stat-bar">
-                <div class="stat-bar-fill fill-hunger" id="bar-hunger" style="width: 80%;"></div>
-            </div>
-            <span class="stat-value" id="val-hunger">80</span>
-        </div>
-        <div class="stat-row">
-            <span>🧶</span>
-            <div class="stat-bar">
-                <div class="stat-bar-fill fill-mood" id="bar-mood" style="width: 80%;"></div>
-            </div>
-            <span class="stat-value" id="val-mood">80</span>
-        </div>
-        <div class="stat-row">
-            <span>💤</span>
-            <div class="stat-bar">
-                <div class="stat-bar-fill fill-energy" id="bar-energy" style="width: 100%;"></div>
-            </div>
-            <span class="stat-value" id="val-energy">100</span>
-        </div>
+        <div class="stat-row"><span>🍖</span><div class="stat-bar"><div class="stat-bar-fill fill-hunger" id="bar-hunger" style="width: 80%;"></div></div><span class="stat-value" id="val-hunger">80</span></div>
+        <div class="stat-row"><span>🧶</span><div class="stat-bar"><div class="stat-bar-fill fill-mood" id="bar-mood" style="width: 80%;"></div></div><span class="stat-value" id="val-mood">80</span></div>
+        <div class="stat-row"><span>💤</span><div class="stat-bar"><div class="stat-bar-fill fill-energy" id="bar-energy" style="width: 100%;"></div></div><span class="stat-value" id="val-energy">100</span></div>
         <div class="stat-row" style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(128,128,128,0.2);">
-            <span>💰 Очков любви:</span>
-            <span class="stat-value" id="val-love" style="color: #ff477e;">0 ❤️</span>
+            <span>💰 Очков любви:</span><span class="stat-value" id="val-love" style="color: #ff477e;">0 ❤️</span>
         </div>
     </div>
 
-    <!-- Кнопки -->
     <div class="actions">
-        <button class="action-btn" onclick="doAction('feed')">
-            <span class="emoji">🍖</span>
-            <span>Покормить</span>
-        </button>
-        <button class="action-btn" onclick="doAction('play')">
-            <span class="emoji">🧶</span>
-            <span>Поиграть</span>
-        </button>
-        <button class="action-btn" onclick="doAction('pet')">
-            <span class="emoji">🤗</span>
-            <span>Погладить</span>
-        </button>
-        <button class="action-btn" onclick="doAction('sleep')">
-            <span class="emoji">💤</span>
-            <span>Уложить спать</span>
-        </button>
+        <button class="action-btn" onclick="doAction('feed', event)"><span class="emoji">🍖</span><span>Покормить</span></button>
+        <button class="action-btn" onclick="doAction('play', event)"><span class="emoji">🧶</span><span>Поиграть</span></button>
+        <button class="action-btn" onclick="doAction('pet', event)"><span class="emoji">🤗</span><span>Погладить</span></button>
+        <button class="action-btn" onclick="doAction('sleep', event)"><span class="emoji">💤</span><span>Уложить спать</span></button>
     </div>
-
 </div>
 
 <div class="loading" id="loading">Загрузка котика...</div>
 <div class="toast" id="toast"></div>
 
-<!-- Lottie Player -->
 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-<!-- Telegram Web App -->
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
 <script>
-    // === ИНИЦИАЛИЗАЦИЯ TELEGRAM ===
     const tg = window.Telegram.WebApp;
     tg.ready();
     tg.expand();
     tg.setHeaderColor('secondary_bg_color');
 
-    // === ПОЛУЧАЕМ ДАННЫЕ ИЗ URL ===
-    // Бот передаст статы через параметры: ?name=Мурзик&hunger=80&mood=80...
+    // === ЧИТАЕМ ДАННЫЕ ИЗ URL ===
     const params = new URLSearchParams(window.location.search);
-    
+
     const catData = {
         name: params.get('name') || 'Мурзик',
         level: parseInt(params.get('level')) || 1,
@@ -404,60 +144,112 @@
         skin: params.get('skin') || 'default',
     };
 
+    // === ЛОКАЛЬНЫЙ КУЛДАУН (чтобы не спамить) ===
+    const COOLDOWNS = {
+        feed: 30 * 60,   // 30 минут
+        play: 30 * 60,
+        pet: 60,         // 1 минута
+        sleep: 60 * 60,
+    };
+    const lastAction = {
+        feed: 0, play: 0, pet: 0, sleep: 0,
+    };
+
     // === ОТРИСОВКА ===
     function render() {
         document.getElementById('cat-name').textContent = catData.name;
         document.getElementById('cat-level').textContent = `Уровень ${catData.level}`;
-        
         updateStat('hunger', catData.hunger);
         updateStat('mood', catData.mood);
         updateStat('energy', catData.energy);
-        
         document.getElementById('val-love').textContent = `${catData.love} ❤️`;
-        
-        // Применяем скин
         const container = document.getElementById('cat-container');
         container.className = 'cat-container skin-' + catData.skin;
     }
 
     function updateStat(name, value) {
+        value = Math.max(0, Math.min(100, value));
         document.getElementById(`bar-${name}`).style.width = value + '%';
-        document.getElementById(`val-${name}`).textContent = value;
+        const el = document.getElementById(`val-${name}`);
+        el.textContent = Math.round(value);
+        el.classList.remove('flash');
+        void el.offsetWidth; // перезапуск анимации
+        el.classList.add('flash');
     }
 
     // === ДЕЙСТВИЯ ===
-    function doAction(action) {
+    function doAction(action, event) {
+        const now = Date.now() / 1000;
+        const cooldown = COOLDOWNS[action];
+
+        // Проверяем кулдаун локально
+        if (lastAction[action] && (now - lastAction[action]) < cooldown) {
+            const left = Math.ceil(cooldown - (now - lastAction[action]));
+            const min = Math.floor(left / 60);
+            const sec = left % 60;
+            showToast(`⏸ Подожди ещё ${min > 0 ? min + ' мин ' : ''}${sec} сек`);
+            return;
+        }
+
         // Мгновенная визуальная реакция
         const btn = event.currentTarget;
         btn.disabled = true;
         setTimeout(() => btn.disabled = false, 500);
-        
+
+        // Локальное обновление статов (мгновенно)
+        let toastText = '';
+        switch (action) {
+            case 'feed':
+                catData.hunger = Math.min(100, catData.hunger + 30);
+                catData.love += 10;
+                toastText = '🍖 Ням-ням! +30 🍖, +10 ❤️';
+                break;
+            case 'play':
+                catData.mood = Math.min(100, catData.mood + 30);
+                catData.energy = Math.max(0, catData.energy - 20);
+                catData.love += 15;
+                toastText = '🧶 Мур-мур! +30 🧶, -20 💤, +15 ❤️';
+                break;
+            case 'pet':
+                catData.mood = Math.min(100, catData.mood + 15);
+                catData.love += 5;
+                toastText = '🤗 Мурррр... +15 🧶, +5 ❤️';
+                break;
+            case 'sleep':
+                catData.energy = Math.min(100, catData.energy + 50);
+                toastText = '💤 +50 💤';
+                break;
+        }
+
+        // Пересчёт уровня
+        catData.level = Math.floor(catData.love / 200) + 1;
+
+        // Обновляем UI
+        render();
+        showToast(toastText);
+
         // Анимация котика
         const cat = document.getElementById('cat-container');
-        cat.style.transform = 'scale(1.1)';
-        setTimeout(() => cat.style.transform = 'scale(1)', 200);
-        
-        // Показываем тост
-        const messages = {
-            feed: '🍖 Ням-ням!',
-            play: '🧶 Мур-мур!',
-            pet: '🤗 Мурррр...',
-            sleep: '💤 Сладких снов...'
-        };
-        showToast(messages[action] || '✅');
-        
-        // Отправляем в бота
-        tg.sendData(JSON.stringify({ action: action }));
-        
-        // Закрываем через секунду
-        setTimeout(() => tg.close(), 800);
+        cat.classList.add('bounce');
+        setTimeout(() => cat.classList.remove('bounce'), 200);
+
+        // Запоминаем время
+        lastAction[action] = now;
+
+        // Отправляем боту (не закрываем окно!)
+        try {
+            tg.sendData(JSON.stringify({ action: action }));
+        } catch (e) {
+            console.error('sendData error:', e);
+        }
     }
 
     function showToast(text) {
         const toast = document.getElementById('toast');
         toast.textContent = text;
         toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 1500);
+        clearTimeout(window._toastTimer);
+        window._toastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
     }
 
     // === ЗАПУСК ===
@@ -467,14 +259,12 @@
             const app = document.getElementById('app');
             app.style.display = 'flex';
             render();
-        }, 500);
+        }, 300);
     });
 
-    // Если Telegram не доступен (открыто в браузере)
     if (!tg.initData) {
         document.getElementById('loading').textContent = 'Открой это через Telegram!';
     }
 </script>
-
 </body>
 </html>
